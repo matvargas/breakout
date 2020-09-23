@@ -1,12 +1,8 @@
 #include <GL/glut.h>
-#include <GLFW/glfw3.h>
 
 // Screen Size
 const unsigned int SCREEN_WIDTH = 800;
 const unsigned int SCREEN_HEIGHT = 600;
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 void displayMe(void)
 {
