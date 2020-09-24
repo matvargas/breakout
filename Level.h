@@ -1,7 +1,11 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+#include <vector>
 #include <iostream>
+#include <stdlib.h>
+#include <math.h>
+
 #include "GL/glut.h"
 #include "GameConfig.h"
 
@@ -26,6 +30,7 @@ struct Brick {
     GLint value;
 };
 
+
 class Level {
 
 public: 
@@ -37,10 +42,30 @@ public:
     
 private:
     Paddle paddle;
+    std::vector <Ball> balls;
+    std::vector<Brick> bricks;
+
+    void drawBackground(void);
+
+    void drawGame(void);
+
+    void newBall(float x, float y);
+    void drawBalls(void);
 
     void initPaddle(void);
     void drawPaddle(void);
-    void drawBackground(void);
+
+    void initBricks(void);
+    void drawBricks(void);
+
+    template <typename Iterator>
+    int wallCollision(Iterator it);
+
+    template <typename Iterator>
+    bool brickCollision(Iterator it, Iterator br);
+
+    template <typename Iterator>
+    Iterator hitBrick(Iterator brick);
 
 };
 
