@@ -10,7 +10,7 @@ In order to compile the files, make sure the following libs are properly install
 * GLUT:  `sudo apt-get install freeglut3-dev` 
 
 To execute the game you must execute <em>run</em> script on the root directory:  
-`$ ./run.sh ` 
+`$ ./run.sh `
 
 The script will use CMake to compile the .cpp and .h files on project, it will certify if all libs needed are properly installed.  
 A build folder will be created when the compilation succeed.  
