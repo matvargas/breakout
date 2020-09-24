@@ -13,8 +13,8 @@ const int WALLWIDTH = 700;
 const int WALLHEIGHT = 180;                         
 const float WALLX = (WINWIDTH - WALLWIDTH) / 2.0f;  
 const float WALLY = WALLX + 40;                    
-const int WALLSPACE = 3;                            
-const int WALLCOLS = 15;                            
+const int WALLSPACE = 5;                            
+const int WALLCOLS = 20;                            
 const int WALLROWS = 10;                            
 
 #endif

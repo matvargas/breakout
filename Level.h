@@ -39,6 +39,10 @@ public:
 
     void initLevel(void);
     void displayLevel(void);
+
+    void mouseClick(int button, int state, int x, int y);
+	void mouseMove(int x, int y);
+    void arrowKeys(int key, int x, int y);
     
 private:
     Paddle paddle;

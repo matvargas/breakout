@@ -214,3 +214,50 @@ void Level::drawBackground(void) {
     glVertex2f(-WINWIDTH, WINHEIGHT);
     glEnd();
 }
+
+void Level::mouseClick(int button, int state, int x, int y) {
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        newBall(x, y);
+    }
+	glutPostRedisplay();
+}
+
+void Level::mouseMove(int x, int y) {
+    y = WINHEIGHT - y;
+    if (x - paddle.width / 2.0f >= 0 && x + paddle.width / 2.0f <= WINWIDTH) {
+        paddle.xpos = x - paddle.width / 2.0f;
+    } else if (x - paddle.width / 2.0f <= 0) {
+        paddle.xpos = 0;
+    } else if (x + paddle.width / 2.0f >= WINWIDTH) {
+        paddle.xpos = WINWIDTH - paddle.width;
+    }
+	glutPostRedisplay();
+}
+
+void Level::arrowKeys(int key, int x, int y) {
+    switch(key)
+	{
+		case GLUT_KEY_LEFT:
+            if (paddle.xpos > 0) {
+                paddle.xpos -= 5.0f;
+                paddle.xpos -= 5.0f;
+                glutPostRedisplay();
+                paddle.xpos -= 5.0f;
+                paddle.xpos -= 5.0f;
+                glutPostRedisplay();
+            }
+            break;
+        case GLUT_KEY_RIGHT:
+            if (paddle.xpos + paddle.width < WINWIDTH) {
+                paddle.xpos += 5.0f;
+                paddle.xpos += 5.0f;
+                glutPostRedisplay();
+                paddle.xpos += 5.0f;
+                paddle.xpos += 5.0f;
+                glutPostRedisplay();
+            }
+            break;
+        default:
+            break;
+    }
+}
