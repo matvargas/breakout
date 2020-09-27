@@ -11,6 +11,7 @@ Level::Level(){
 Level::~Level(){}
 
 void Level::initLevel(void){
+    ballCount = MAXBALLS;
     balls.clear();
     bricks.clear();
     initPaddle();
@@ -82,7 +83,7 @@ void Level::newBall(float x = -1, float y = -1) {
 }
 
 void Level::ballHandler(void){
-    newBall(paddle.xpos + paddle.width/2, paddle.ypos);
+    newBall(paddle.xpos + paddle.width/2, WINHEIGHT - 30.0f);
 }
 
 void Level::drawBalls(void) {
@@ -109,6 +110,9 @@ void Level::drawBalls(void) {
         }
         if (it->ypos >= (WINHEIGHT - 2 * it->radius)) {
             it = balls.erase(it);
+            ballCount --;
+            if(ballCount == 0)
+                exit(EXIT_SUCCESS);
             continue;
         }
         
@@ -176,6 +180,14 @@ void Level::drawBalls(void) {
             
             ++br;
         }
+
+        // Check collission between paddle's top edge and bottom point on circle
+        if (it->xpos >= paddle.xpos && it->xpos <= paddle.xpos + paddle.width) {
+            if ((it->ypos + it->radius - paddle.ypos) >= -10 && (it->ypos + it->radius - paddle.ypos) <= 0) {
+                it->yvel *= -1;
+                continue;
+            }
+        }
         
         ++it;
     }
@@ -228,7 +240,7 @@ void Level::drawBallCount(void) {
     sprintf(buf, "Balls: ");
     do glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *p); while(*(++p));
     p = buf;
-    sprintf(buf, "           %lu", balls.size());
+    sprintf(buf, "           %d", ballCount);
     glColor3f(1.0f, 0.2f, 0.2f);
     glRasterPos2f(WINWIDTH - 120, 20);
     do glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *p); while(*(++p));
@@ -237,7 +249,10 @@ void Level::drawBallCount(void) {
 
 void Level::mouseClick(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        ballHandler();
+        if(pausedGame)
+            pausedGame = false;
+        else
+            pausedGame = true;
     }
 	glutPostRedisplay();
 }
@@ -251,7 +266,6 @@ void Level::mouseMove(int x, int y) {
     } else if (x + paddle.width / 2.0f >= WINWIDTH) {
         paddle.xpos = WINWIDTH - paddle.width;
     }
-	glutPostRedisplay();
 }
 
 
@@ -261,7 +275,12 @@ void Level::keyboardListener(unsigned char key, int x, int y) {
             exit(0);
             break;
         case 'r':
-            initLevel();
+            if(restartGame){
+                initLevel();
+                restartGame = false;
+            } else {
+                initPaddle();
+            }
             ballHandler();
             break;
         default:

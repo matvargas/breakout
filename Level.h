@@ -50,6 +50,11 @@ private:
     std::vector <Ball> balls;
     std::vector<Brick> bricks;
 
+    int ballCount;
+
+    bool restartGame = true;
+    bool pausedGame = true;
+
     void drawBackground(void);
     void drawBallCount(void);
 
