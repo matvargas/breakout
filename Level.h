@@ -42,7 +42,8 @@ public:
 
     void mouseClick(int button, int state, int x, int y);
 	void mouseMove(int x, int y);
-    void arrowKeys(int key, int x, int y);
+
+    void keyboardListener(unsigned char key, int x, int y);
     
 private:
     Paddle paddle;
@@ -50,10 +51,12 @@ private:
     std::vector<Brick> bricks;
 
     void drawBackground(void);
+    void drawBallCount(void);
 
     void drawGame(void);
 
     void newBall(float x, float y);
+    void ballHandler(void);
     void drawBalls(void);
 
     void initPaddle(void);

@@ -13,7 +13,7 @@ void startGame(int *pargc, char **argv){
     glutDisplayFunc(levelDisplay);
     glutMouseFunc(mouseClick);
     glutPassiveMotionFunc(mouseMove);
-	glutSpecialFunc(arrowKeys);
+    glutKeyboardFunc(keyboardLinstener);
 
     glutMainLoop();
 }
@@ -21,4 +21,4 @@ void startGame(int *pargc, char **argv){
 void levelDisplay() {level.displayLevel();}
 void mouseClick(int button, int state, int x, int y){level.mouseClick(button, state, x, y);}
 void mouseMove(int x, int y){level.mouseMove(x, y);}
-void arrowKeys(int key, int x, int y){level.arrowKeys(key, x, y);}
+void keyboardLinstener(unsigned char key, int x, int y){level.keyboardListener(key, x, y);}

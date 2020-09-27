@@ -4,6 +4,8 @@
 
 #define TIMER 16.6
 
+#define MAXBALLS 3
+
 // Screen Settings
 #define WINTITLE "Breakout Game"
 const int WINWIDTH  = 800;

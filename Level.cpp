@@ -15,7 +15,6 @@ void Level::initLevel(void){
     bricks.clear();
     initPaddle();
     initBricks();
-    newBall(-1, -1);
 }
 
 void Level::displayLevel(void) {
@@ -31,6 +30,7 @@ void Level::displayLevel(void) {
     glLoadIdentity();
     
     drawBackground();
+    drawBallCount();
 
     drawPaddle();
     drawBalls();
@@ -81,9 +81,13 @@ void Level::newBall(float x = -1, float y = -1) {
     balls.push_back(b1);
 }
 
+void Level::ballHandler(void){
+    newBall(paddle.xpos + paddle.width/2, paddle.ypos);
+}
+
 void Level::drawBalls(void) {
     for (std::vector<Ball>::iterator it = balls.begin(); it != balls.end(); ) {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // use GL_LINE if no fill
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glBegin(GL_POLYGON);
         glColor3f(it->r, it->g, it->b);
         for(int j = 0; j < 50; j++) {
@@ -215,9 +219,25 @@ void Level::drawBackground(void) {
     glEnd();
 }
 
+void Level::drawBallCount(void) {
+    glPushMatrix();
+    glColor3f(1.0f, 0.7f, 0.7f);
+    glRasterPos2f(WINWIDTH - 120, 20);
+    char buf[300], *p;
+    p = buf;
+    sprintf(buf, "Balls: ");
+    do glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *p); while(*(++p));
+    p = buf;
+    sprintf(buf, "           %lu", balls.size());
+    glColor3f(1.0f, 0.2f, 0.2f);
+    glRasterPos2f(WINWIDTH - 120, 20);
+    do glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, *p); while(*(++p));
+    glPopMatrix();
+}
+
 void Level::mouseClick(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        newBall(x, y);
+        ballHandler();
     }
 	glutPostRedisplay();
 }
@@ -234,28 +254,15 @@ void Level::mouseMove(int x, int y) {
 	glutPostRedisplay();
 }
 
-void Level::arrowKeys(int key, int x, int y) {
-    switch(key)
-	{
-		case GLUT_KEY_LEFT:
-            if (paddle.xpos > 0) {
-                paddle.xpos -= 5.0f;
-                paddle.xpos -= 5.0f;
-                glutPostRedisplay();
-                paddle.xpos -= 5.0f;
-                paddle.xpos -= 5.0f;
-                glutPostRedisplay();
-            }
+
+void Level::keyboardListener(unsigned char key, int x, int y) {
+    switch (key) {
+        case 'q':
+            exit(0);
             break;
-        case GLUT_KEY_RIGHT:
-            if (paddle.xpos + paddle.width < WINWIDTH) {
-                paddle.xpos += 5.0f;
-                paddle.xpos += 5.0f;
-                glutPostRedisplay();
-                paddle.xpos += 5.0f;
-                paddle.xpos += 5.0f;
-                glutPostRedisplay();
-            }
+        case 'r':
+            initLevel();
+            ballHandler();
             break;
         default:
             break;
