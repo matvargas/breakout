@@ -98,7 +98,12 @@ void Level::drawBalls(void) {
             glVertex2f(x + it->xpos, y + it->ypos);
         }
         glEnd();
-        
+
+        //TODO: Allow user pause the game
+        // if(pausedGame){
+        //     continue;
+        // }
+
         it->xpos += it->xvel;
         it->ypos += it->yvel;
         
@@ -181,7 +186,10 @@ void Level::drawBalls(void) {
             ++br;
         }
 
-        // Check collission between paddle's top edge and bottom point on circle
+        if(bricks.size() <= 0){
+            exit(EXIT_SUCCESS);
+        }
+
         if (it->xpos >= paddle.xpos && it->xpos <= paddle.xpos + paddle.width) {
             if ((it->ypos + it->radius - paddle.ypos) >= -10 && (it->ypos + it->radius - paddle.ypos) <= 0) {
                 it->yvel *= -1;
@@ -254,7 +262,6 @@ void Level::mouseClick(int button, int state, int x, int y) {
         else
             pausedGame = true;
     }
-	glutPostRedisplay();
 }
 
 void Level::mouseMove(int x, int y) {

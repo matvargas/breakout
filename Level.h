@@ -53,7 +53,7 @@ private:
     int ballCount;
 
     bool restartGame = true;
-    bool pausedGame = true;
+    bool pausedGame = false;
 
     void drawBackground(void);
     void drawBallCount(void);
